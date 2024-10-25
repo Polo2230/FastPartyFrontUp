@@ -4,7 +4,7 @@
 import React from 'react';
 import Navbar from '@/components/organisms/NavbarUser';
 import Footer from '@/components/organisms/Footer';
-import './UserTemplate.css';
+import './userTemplate.css';
 
 interface UserTemplateProps {
   children: React.ReactNode;
