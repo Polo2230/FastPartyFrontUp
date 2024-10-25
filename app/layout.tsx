@@ -5,11 +5,13 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-// Cambiamos la declaración del componente para usar React.FC
-const RootLayout: React.FC<{ children: React.ReactNode; metadata?: Metadata }> = ({
-  children,
-  metadata,
-}) => {
+// Define the props type for the layout
+interface RootLayoutProps {
+  children: React.ReactNode;
+  metadata?: Metadata; // metadata puede ser opcional
+}
+
+export default function RootLayout({ children, metadata }: RootLayoutProps) {
   const defaultMetadata: Metadata = {
     title: "Home of Party",
     description: "Welcome to the best place to find the best parties and events.",
@@ -17,16 +19,16 @@ const RootLayout: React.FC<{ children: React.ReactNode; metadata?: Metadata }> =
 
   const finalMetadata = metadata || defaultMetadata;
 
+  // Ensure title is a string
+  const title = typeof finalMetadata.title === 'string' ? finalMetadata.title : "Default Title";
+
   return (
     <html lang="en">
       <head>
-        <title>{String(finalMetadata.title) ?? "Default Title"}</title>
-        <meta name="description" content={finalMetadata.description ?? "Default Description"} />
+        <title>{title}</title> {/* Ensure title is a string */}
+        <meta name="description" content={finalMetadata.description || "Default description"} />
       </head>
       <body className={inter.className}>{children}</body>
     </html>
   );
-};
-
-export default RootLayout; // Asegúrate de que la exportación sea correcta
-
+}
