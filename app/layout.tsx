@@ -1,13 +1,17 @@
+import { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
-// Layout component
-export function RootLayout({
+
+export const metadata: Metadata = {
+  title: "Next.js + TypeScript",
+  description: "Next.js + TypeScript + Tailwind CSS + Jest + ESLint + Prettier",
+}
+
+export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode; // Ensure children is typed as ReactNode
-}) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <body className={inter.className}>{children}</body>
