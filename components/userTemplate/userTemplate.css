@@ -1,0 +1,6 @@
+/* MainTemplate.css */
+.main-content {
+    padding: 20px;
+    min-height: calc(100vh - 260px); /* Ajusta según la altura del Navbar y Footer */
+  }
+  

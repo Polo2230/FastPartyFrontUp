@@ -1,0 +1,100 @@
+/* Reseteo básico para asegurar consistencia entre navegadores */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: 'Montserrat', sans-serif; /* Tipografía moderna */
+  background-color: #0d0d0d; /* Fondo oscuro para resaltar los efectos neón */
+  color: #fff; /* Color de texto básico */
+  line-height: 1.6;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+/* Estilos generales para los textos */
+h1, h2, h3, h4, h5, h6 {
+  color: #e3e3e3;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+a {
+  color: #ff6bcb; /* Color de links neón */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #39ff14; /* Efecto hover en verde neón */
+}
+
+/* Configuración de clases básicas para componentes */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+button {
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Efectos de brillo general */
+.neon-text {
+  color: #fff;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.5),
+               0 0 10px rgba(255, 255, 255, 0.5),
+               0 0 20px #ff6bcb,
+               0 0 30px #ff6bcb;
+}
+
+.neon-box {
+  border: 1px solid #39ff14;
+  box-shadow: 0 0 10px #39ff14,
+              0 0 20px #ff6bcb,
+              0 0 30px #ff6bcb;
+}
+
+/* Botones generales con estilo neón */
+.button-neon {
+  padding: 10px 30px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: transparent;
+  color: #fff;
+  text-transform: uppercase;
+  border: 2px solid #ff6bcb;
+  box-shadow: 0 0 10px #ff6bcb, 0 0 40px #ff6bcb;
+  transition: all 0.3s ease-in-out;
+}
+
+.button-neon:hover {
+  background-color: #ff6bcb;
+  color: #0d0d0d;
+  box-shadow: 0 0 20px #39ff14, 0 0 50px #39ff14;
+}
+
+/* Inputs con estilo neón */
+input {
+  padding: 10px;
+  border: 2px solid #ff6bcb;
+  border-radius: 8px;
+  background: transparent;
+  color: #fff;
+  font-size: 14px;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  border-color: #39ff14;
+  box-shadow: 0 0 10px #39ff14;
+}

@@ -1,0 +1,73 @@
+/* style.css */
+.about-us {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+header {
+  background-color: #f8f9fa;
+  padding: 20px;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 3em; /* Aumentar tamaño de fuente */
+  color: black;
+  font-family: 'Georgia', serif; /* Cambiar familia de fuente */
+}
+
+.intro {
+  display: flex;
+  width: 80%;
+  margin: 20px 0;
+}
+
+.intro-image, .intro-text {
+  width: 50%;
+}
+
+.intro-image {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.intro-text p {
+  font-size: 1.5em; /* Aumentar tamaño de fuente */
+  line-height: 1.8; /* Aumentar altura de línea */
+  color: white;
+  font-family: 'Georgia', serif; /* Cambiar familia de fuente */
+}
+
+.history, .vision {
+  width: 80%;
+  margin: 20px 0;
+}
+
+.history p, .vision p {
+  font-size: 1.5em; /* Aumentar tamaño de fuente */
+  line-height: 1.8; /* Aumentar altura de línea */
+  color: white;
+  font-family: 'Georgia', serif; /* Cambiar familia de fuente */
+}
+
+h2 {
+  font-size: 2.5em; /* Aumentar tamaño de fuente */
+  color: white;
+  margin-bottom: 10px;
+  font-family: 'Georgia', serif; /* Cambiar familia de fuente */
+}

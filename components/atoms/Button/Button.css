@@ -1,0 +1,21 @@
+/* Button.css */
+.button-neon {
+    padding: 10px 30px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: transparent;
+    color: #fff;
+    text-transform: uppercase;
+    border: 2px solid #ff6bcb;
+    box-shadow: 0 0 10px #ff6bcb, 0 0 40px #ff6bcb;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+  }
+  
+  .button-neon:hover {
+    background-color: #ff6bcb;
+    color: #0d0d0d;
+    box-shadow: 0 0 20px #39ff14, 0 0 50px #39ff14;
+  }
+  

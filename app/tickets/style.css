@@ -1,0 +1,64 @@
+.tickets-section {
+    padding: 40px;
+    text-align: center;
+    background: #0b0b2a; /* Fondo oscuro tipo club */
+    min-height: 100vh;
+  }
+  
+  .tickets-title {
+    font-size: 3rem;
+    color: #ff0099; /* Color neón rosado */
+    text-shadow: 0 0 10px #ff0099, 0 0 20px #ff0099, 0 0 30px #ff0099;
+    margin-bottom: 40px;
+  }
+  
+  .tickets-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .ticket-card {
+    background: rgba(0, 0, 50, 0.8);
+    border: 2px solid #ff0099;
+    border-radius: 10px;
+    padding: 20px;
+    width: 280px;
+    color: #ffffff;
+    box-shadow: 0 0 10px #ff0099, 0 0 20px #ff0099, 0 0 30px #ff0099;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  /* Efecto hover para las tarjetas de tickets */
+  .ticket-card:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Texto del ticket */
+  .ticket-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #00ffcc; /* Color neón verde agua */
+    text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
+  }
+  
+  .ticket-card p {
+    margin: 5px 0;
+    color: #ffffff;
+  }
+  
+  /* Estilo para la imagen del código QR */
+  .qr-code img {
+    width: 100px;
+    height: 100px;
+    margin-top: 10px;
+    border-radius: 5px;
+  }
+  
+  /* Mensaje de no tener tickets */
+  .no-tickets {
+    font-size: 1.5rem;
+    color: #ff0099;
+    text-shadow: 0 0 10px #ff0099, 0 0 20px #ff0099;
+  }
