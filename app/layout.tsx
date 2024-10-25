@@ -19,11 +19,15 @@ export default function RootLayout({
 
   const finalMetadata = metadata || defaultMetadata;
 
+  // Asegurarse de que title y description sean siempre cadenas
+  const title = finalMetadata.title ?? "Default Title";
+  const description = finalMetadata.description ?? "Default description";
+
   return (
     <html lang="en">
       <head>
-        <title>{finalMetadata.title?.toString()}</title>
-        <meta name="description" content={finalMetadata.description ?? ""} />
+        <title>{typeof title === 'string' ? title : 'Default Title'}</title>
+        <meta name="description" content={typeof description === 'string' ? description : 'Default description'} />
       </head>
       <body className={inter.className}>{children}</body>
     </html>
