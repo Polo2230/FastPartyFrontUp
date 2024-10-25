@@ -9,7 +9,7 @@ export const metadata = {
 };
 
 // Layout component
-export default function RootLayout({
+export function RootLayout({
   children,
 }: {
   children: React.ReactNode; // Ensure children is typed as ReactNode
@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>{title}</title> {/* Ensure title is a string */}
+        <title>{title}</title> {}
       </head>
       <body className={inter.className}>{children}</body>
     </html>
