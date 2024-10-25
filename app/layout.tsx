@@ -5,13 +5,13 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function RootLayout({
-  children,
-  metadata,
-}: {
+// Definición de la interfaz para las propiedades
+interface RootLayoutProps {
   children: React.ReactNode;
-  metadata?: Metadata;
-}) {
+  metadata?: Metadata; // metadata puede ser opcional
+}
+
+export default function RootLayout({ children, metadata }: RootLayoutProps) {
   const defaultMetadata: Metadata = {
     title: "Home of Party",
     description: "Welcome to the best place to find the best parties and events.",
@@ -19,15 +19,11 @@ export default function RootLayout({
 
   const finalMetadata = metadata || defaultMetadata;
 
-  // Asegurarse de que title y description sean siempre cadenas
-  const title = finalMetadata.title ?? "Default Title";
-  const description = finalMetadata.description ?? "Default description";
-
   return (
     <html lang="en">
       <head>
-        <title>{typeof title === 'string' ? title : 'Default Title'}</title>
-        <meta name="description" content={typeof description === 'string' ? description : 'Default description'} />
+        <title dangerouslySetInnerHTML={{ __html: finalMetadata.title || "Default Title" }}></title>
+        <meta name="description" content={finalMetadata.description || ""} />
       </head>
       <body className={inter.className}>{children}</body>
     </html>
