@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 // Define the props type for the layout
 interface RootLayoutProps {
   children: React.ReactNode;
-  metadata?: Metadata; // metadata puede ser opcional
+  metadata?: Metadata; // metadata can be optional
 }
 
 export default function RootLayout({ children, metadata }: RootLayoutProps) {
