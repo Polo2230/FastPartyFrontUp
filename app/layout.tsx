@@ -1,12 +1,10 @@
-// app/layout.tsx
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
 // Define the default metadata for the layout
-export const metadata: Metadata = {
+export const metadata = {
   title: "Home of Party", // This can be a string or other types as per your requirement
   description: "Welcome to the best place to find the best parties and events.",
 };
