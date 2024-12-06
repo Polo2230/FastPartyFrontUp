@@ -39,16 +39,22 @@ const EventsPage: React.FC = () => {
         <h1>Próximos Eventos</h1>
       </header>
       <div className="events-grid">
-        {events.map(event => (
-          <Card
-            key={event._id}
-            title={event.title}
-            description={event.description}
-            //imageUrl={event.imageUrl}
-            link={`/events/${event._id}`}
-            buttonText="Ver Detalles"
-          />
-        ))}
+        {events.map(event => {
+          const minPrice = Math.min(...event.localities.map(locality => locality.price));
+          const locationName = event.location?.name || 'Ubicación no especificada';
+
+          return (
+            <Card
+              key={event._id}
+              title={event.title}
+              description={`${event.description} - Desde $${minPrice}`}
+              // Uncomment the next line if the Card component supports imageUrl
+              // imageUrl={event.imageUrl}
+              link={`/events/${event._id}`}
+              buttonText={`Ver en ${locationName}`}
+            />
+          );
+        })}
       </div>
     </MainTemplate>
   );

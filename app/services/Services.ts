@@ -16,22 +16,52 @@ const getAuthHeaders = () => {
   };
 };
 
+export interface Locality {
+  name: string;
+  capacity: number;
+  price: number;
+  soldTickets: number;
+  _id: string;
+}
+
+export interface Location {
+  _id: string;
+  name: string;
+  address: string;
+  capacity: number;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface Organizer {
+  _id: string;
+  name: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
 export interface Event {
   _id: string;
   title: string;
   description: string;
   startDate: string;
   endDate: string;
+  location: Location | null; // Puede ser null según tu ejemplo
   capacity: number;
-  price: number;
-  location: string;
+  imageUrl: string;
+  organizer: Organizer | null; // Puede ser null según tu ejemplo
   isExclusive: boolean;
   discount: number;
-  imageUrl: string;
+  localities: Locality[];
   createdAt: string;
   updatedAt: string;
   __v: number;
 }
+
 
 
 export interface UserLoginData {
@@ -49,20 +79,30 @@ export interface Ticket {
   qrCode: string;
   status: string;
 }
-export type EventInput = Omit<Event, '_id' | 'createdAt' | 'updatedAt' | '__v'>;
+export interface EventInput {
+  title: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  location?: Location | null; // Opcional si puede ser nulo
+  capacity: number;
+  imageUrl: string;
+  organizer?: Organizer | null; // Opcional si puede ser nulo
+  isExclusive: boolean;
+  discount: number;
+  localities: Locality[];
+}
 
 // Event-related API functions
 export const fetchEvents = async (): Promise<Event[]> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/events`, {
-      headers: getAuthHeaders(),
-    });
-    
+    const response = await fetch(`${API_BASE_URL}/events`);
+
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(errorData.message || 'Failed to fetch events');
     }
-    
+
     const data: Event[] = await response.json();
     return data;
   } catch (error) {
@@ -72,13 +112,14 @@ export const fetchEvents = async (): Promise<Event[]> => {
 };
 
 
+
+
+
+
 export const createEvent = async (eventData: EventInput): Promise<Event> => {
   try {
     const headers = getAuthHeaders();
     const url = `${API_BASE_URL}/events`;
-    console.log('Full API URL:', url); // Debugging line
-    console.log('Request headers:', headers);
-    console.log('Request body:', JSON.stringify(eventData));
 
     const response = await fetch(url, {
       method: 'POST',
@@ -86,19 +127,12 @@ export const createEvent = async (eventData: EventInput): Promise<Event> => {
       body: JSON.stringify(eventData),
     });
 
-    console.log('Response status:', response.status);
-    console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-
     if (!response.ok) {
-      if (response.status === 404) {
-        throw new Error(`API endpoint not found: ${url}`);
-      }
       const errorData = await response.json();
       throw new Error(errorData.message || 'Failed to create event');
     }
 
-    const responseData = await response.json();
-    console.log('Response data:', responseData);
+    const responseData: Event = await response.json();
     return responseData;
   } catch (error) {
     console.error('Error creating event:', error);
@@ -144,9 +178,7 @@ export const deleteEvent = async (id: string): Promise<void> => {
 
 export const fetchEventById = async (id: string): Promise<Event> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/events/${id}`, {
-      headers: getAuthHeaders(),
-    });
+    const response = await fetch(`${API_BASE_URL}/events/${id}`); // Sin headers de autenticación
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -160,6 +192,7 @@ export const fetchEventById = async (id: string): Promise<Event> => {
     throw error;
   }
 };
+
 
 // Authentication-related API functions
 export const loginUser = async (email: string, password: string): Promise<UserLoginData> => {

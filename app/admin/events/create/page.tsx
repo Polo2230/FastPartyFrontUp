@@ -16,22 +16,21 @@ export default function CreateEvent() {
     setIsSubmitting(true);
     try {
       await createEvent(eventData);
-      toast.success('Event created successfully');
+      toast.success('Evento creado exitosamente');
       router.push('/admin/events');
     } catch (error) {
-      console.error('Error creating event:', error);
+      console.error('Error al crear el evento:', error);
       if (error instanceof Error) {
         if (error.message === 'Unauthorized: Please log in again') {
-          toast.error('Your session has expired. Please log in again.');
-          // Redirect to login page or trigger re-authentication
+          toast.error('Tu sesión ha expirado. Por favor inicia sesión nuevamente.');
           router.push('/login');
         } else if (error.message === 'API endpoint not found') {
-          toast.error('Unable to connect to the server. Please try again later.');
+          toast.error('No se pudo conectar al servidor. Intenta nuevamente más tarde.');
         } else {
-          toast.error(error.message || 'Failed to create event');
+          toast.error(error.message || 'No se pudo crear el evento');
         }
       } else {
-        toast.error('An unexpected error occurred');
+        toast.error('Ocurrió un error inesperado');
       }
     } finally {
       setIsSubmitting(false);
@@ -41,10 +40,9 @@ export default function CreateEvent() {
   return (
     <AdminTemplate>
       <div className="create-event-container">
-        <h1 className="create-event-title">Create New Event</h1>
+        <h1 className="create-event-title">Crear Nuevo Evento</h1>
         <EventForm onSubmit={handleSubmit} isSubmitting={isSubmitting} />
       </div>
     </AdminTemplate>
   );
 }
-

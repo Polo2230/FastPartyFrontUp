@@ -47,6 +47,10 @@ const EventDetailsPage: React.FC = () => {
     return <MainTemplate><p>No se encontró el evento.</p></MainTemplate>;
   }
 
+  const minPrice = Math.min(...event.localities.map(locality => locality.price));
+  const locationName = event.location?.name || 'Ubicación no especificada';
+  const locationAddress = event.location?.address || 'Dirección no disponible';
+
   return (
     <MainTemplate>
       <div className="event-details">
@@ -54,15 +58,25 @@ const EventDetailsPage: React.FC = () => {
           <h1>{event.title}</h1>
         </header>
         <div className="event-image">
-           {/* <Image src={event.imageUrl} alt={event.title} fill style={{ objectFit: 'cover', borderRadius: '10px' }} /> */}
+          {/* Descomentar esta línea si se usan imágenes */}
+          {/* <Image src={event.imageUrl} alt={event.title} fill style={{ objectFit: 'cover', borderRadius: '10px' }} /> */}
         </div>
         <section className="event-info">
           <p><strong>Descripción:</strong> {event.description}</p>
           <p><strong>Fecha de Inicio:</strong> {new Date(event.startDate).toLocaleString()}</p>
           <p><strong>Fecha de Finalización:</strong> {new Date(event.endDate).toLocaleString()}</p>
-          <p><strong>Ubicación:</strong> {event.location}</p>
-          <p><strong>Capacidad:</strong> {event.capacity}</p>
-          <p><strong>Precio:</strong> ${event.price}</p>
+          <p><strong>Ubicación:</strong> {locationName}</p>
+          <p><strong>Dirección:</strong> {locationAddress}</p>
+          <p><strong>Capacidad Total:</strong> {event.capacity}</p>
+          <p><strong>Precio desde:</strong> ${minPrice}</p>
+          <p><strong>Localidades Disponibles:</strong></p>
+          <ul>
+            {event.localities.map(locality => (
+              <li key={locality._id}>
+                <strong>{locality.name}</strong>: ${locality.price} - Capacidad: {locality.capacity}, Vendidas: {locality.soldTickets}
+              </li>
+            ))}
+          </ul>
           <Link href="/events">
             <Button>Volver a Eventos</Button>
           </Link>
