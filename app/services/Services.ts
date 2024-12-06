@@ -20,8 +20,6 @@ export interface Locality {
   name: string;
   capacity: number;
   price: number;
-  soldTickets: number;
-  _id: string;
 }
 
 export interface Location {
@@ -53,7 +51,7 @@ export interface Event {
   location: Location | null; // Puede ser null según tu ejemplo
   capacity: number;
   imageUrl: string;
-  organizer: Organizer | null; // Puede ser null según tu ejemplo
+  organizer: string | null; // Puede ser null según tu ejemplo
   isExclusive: boolean;
   discount: number;
   localities: Locality[];
@@ -84,10 +82,10 @@ export interface EventInput {
   description: string;
   startDate: string;
   endDate: string;
-  location?: Location | null; // Opcional si puede ser nulo
+  location?: string | null; // Opcional si puede ser nulo
   capacity: number;
   imageUrl: string;
-  organizer?: Organizer | null; // Opcional si puede ser nulo
+  organizer?: string | null; // Opcional si puede ser nulo
   isExclusive: boolean;
   discount: number;
   localities: Locality[];

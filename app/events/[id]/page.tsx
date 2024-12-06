@@ -70,13 +70,6 @@ const EventDetailsPage: React.FC = () => {
           <p><strong>Capacidad Total:</strong> {event.capacity}</p>
           <p><strong>Precio desde:</strong> ${minPrice}</p>
           <p><strong>Localidades Disponibles:</strong></p>
-          <ul>
-            {event.localities.map(locality => (
-              <li key={locality._id}>
-                <strong>{locality.name}</strong>: ${locality.price} - Capacidad: {locality.capacity}, Vendidas: {locality.soldTickets}
-              </li>
-            ))}
-          </ul>
           <Link href="/events">
             <Button>Volver a Eventos</Button>
           </Link>

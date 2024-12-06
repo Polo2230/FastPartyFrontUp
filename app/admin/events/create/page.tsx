@@ -1,48 +1,82 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import AdminTemplate from '@/components/adminTemplate/AdminTemplate';
-import EventForm from '@/components/organisms/EventForm/EventForm';
-import { createEvent, EventInput } from '@/app/services/Services';
-import { toast } from 'react-hot-toast';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import MainTemplate from '@/components/mainTemplate/MainTemplate';
+import { fetchEventById, Event } from '@/app/services/Services';
+import Image from 'next/image';
+import Button from '@/components/atoms/Button';
+import Link from 'next/link';
 import './style.css';
 
-export default function CreateEvent() {
-  const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+const EventDetailsPage: React.FC = () => {
+  const { id } = useParams();
+  const [event, setEvent] = useState<Event | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (eventData: EventInput) => {
-    setIsSubmitting(true);
-    try {
-      await createEvent(eventData);
-      toast.success('Evento creado exitosamente');
-      router.push('/admin/events');
-    } catch (error) {
-      console.error('Error al crear el evento:', error);
-      if (error instanceof Error) {
-        if (error.message === 'Unauthorized: Please log in again') {
-          toast.error('Tu sesión ha expirado. Por favor inicia sesión nuevamente.');
-          router.push('/login');
-        } else if (error.message === 'API endpoint not found') {
-          toast.error('No se pudo conectar al servidor. Intenta nuevamente más tarde.');
+  useEffect(() => {
+    const getEvent = async () => {
+      try {
+        if (typeof id === 'string' && id) {
+          const data = await fetchEventById(id);
+          setEvent(data);
         } else {
-          toast.error(error.message || 'No se pudo crear el evento');
+          throw new Error('Invalid event ID');
         }
-      } else {
-        toast.error('Ocurrió un error inesperado');
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
-    } finally {
-      setIsSubmitting(false);
+    };
+    if (id) {
+      getEvent();
     }
-  };
+  }, [id]);
+
+  if (loading) {
+    return <MainTemplate><p>Cargando evento...</p></MainTemplate>;
+  }
+
+  if (error) {
+    return <MainTemplate><p>Error: {error}</p></MainTemplate>;
+  }
+
+  if (!event) {
+    return <MainTemplate><p>No se encontró el evento.</p></MainTemplate>;
+  }
+
+  const minPrice = Math.min(...event.localities.map(locality => locality.price));
+  const locationName = event.location?.name || 'Ubicación no especificada';
+  const locationAddress = event.location?.address || 'Dirección no disponible';
 
   return (
-    <AdminTemplate>
-      <div className="create-event-container">
-        <h1 className="create-event-title">Crear Nuevo Evento</h1>
-        <EventForm onSubmit={handleSubmit} isSubmitting={isSubmitting} />
+    <MainTemplate>
+      <div className="event-details">
+        <header>
+          <h1>{event.title}</h1>
+        </header>
+        <div className="event-image">
+          {/* Descomentar esta línea si se usan imágenes */}
+          {/* <Image src={event.imageUrl} alt={event.title} fill style={{ objectFit: 'cover', borderRadius: '10px' }} /> */}
+        </div>
+        <section className="event-info">
+          <p><strong>Descripción:</strong> {event.description}</p>
+          <p><strong>Fecha de Inicio:</strong> {new Date(event.startDate).toLocaleString()}</p>
+          <p><strong>Fecha de Finalización:</strong> {new Date(event.endDate).toLocaleString()}</p>
+          <p><strong>Ubicación:</strong> {locationName}</p>
+          <p><strong>Dirección:</strong> {locationAddress}</p>
+          <p><strong>Capacidad Total:</strong> {event.capacity}</p>
+          <p><strong>Precio desde:</strong> ${minPrice}</p>
+          <p><strong>Localidades Disponibles:</strong></p>
+          <Link href="/events">
+            <Button>Volver a Eventos</Button>
+          </Link>
+        </section>
       </div>
-    </AdminTemplate>
+    </MainTemplate>
   );
-}
+};
+
+export default EventDetailsPage;
