@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import MainTemplate from '@/components/mainTemplate/MainTemplate';
-import { fetchEventById, Event } from '@/app/services/eventsService';
+import { fetchEventById, Event } from '@/app/services/Services';
 import Image from 'next/image';
 import Button from '@/components/atoms/Button';
 import Link from 'next/link';

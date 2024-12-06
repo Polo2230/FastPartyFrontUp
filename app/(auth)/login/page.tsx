@@ -1,4 +1,4 @@
-'use client'; // Esta línea debe ser la primera en el archivo
+'use client'; 
 
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '@/components/atoms/Button';
 import './style.css';
 import { MainTemplate } from '@/components';
-import { loginUser } from '@/app/services/eventsService'; 
+import { loginUser } from '@/app/services/Services'; 
 import { useRouter } from 'next/navigation'; 
 import { jwtDecode } from 'jwt-decode';
 import Cookies from 'js-cookie'; 

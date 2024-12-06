@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import MainTemplate from '@/components/mainTemplate/MainTemplate';
 import Card from '@/components/molecules/Card';
-import { fetchEvents, Event } from '@/app/services/eventsService'; 
+import { fetchEvents, Event } from '@/app/services/Services'; 
 import './style.css';
 
 const EventsPage: React.FC = () => {

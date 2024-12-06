@@ -8,7 +8,7 @@ import Button from '@/components/atoms/Button';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { registerUser } from '@/app/services/eventsService'; // Asegúrate de que la ruta sea correcta
+import { registerUser } from '@/app/services/Services'; // Asegúrate de que la ruta sea correcta
 import { jwtDecode } from 'jwt-decode';
 
 interface DecodedToken {
