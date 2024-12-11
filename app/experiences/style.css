@@ -1,0 +1,74 @@
+/* style.css */
+
+/* Estilo general */
+.experiences-page {
+    width: 100%;
+    padding: 40px 20px;
+    text-align: center;
+    background: linear-gradient(135deg, #1e1e2f, #121212);
+    color: #f0f0f0;
+    min-height: 100vh;
+  }
+  
+  /* Encabezado */
+  .experiences-page header {
+    margin-bottom: 40px;
+  }
+  
+  .experiences-page header h1 {
+    font-size: 2.8rem;
+    color: #ff00ff;
+    text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  /* Sección de reseñas */
+  .reviews {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 0 20px;
+  }
+  
+  /* Tarjetas de reseñas */
+  .review-card {
+    background: #1e1e2f;
+    border: 1px solid #333;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .review-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px #ff00ff, 0 0 25px #00e6e6;
+  }
+  
+  /* Nombre de usuario */
+  .review-card h2 {
+    font-size: 1.5rem;
+    margin: 0 0 10px;
+    color: #00e6e6;
+  }
+  
+  /* Fecha de la reseña */
+  .review-date {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-bottom: 15px;
+  }
+  
+  /* Texto de la reseña */
+  .review-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+  
+  /* Calificación */
+  .review-rating {
+    font-size: 1.2rem;
+    color: #ffdd00;
+  }
+  

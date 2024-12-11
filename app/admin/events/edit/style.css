@@ -1,0 +1,90 @@
+/* Contenedor principal de la página */
+.manage-events {
+    padding: 20px;
+    background-color: #1c1c1c; /* Fondo oscuro */
+    color: #e0e0e0; /* Texto claro */
+    min-height: 100vh;
+  }
+  
+  /* Título de la página */
+  .manage-events h1 {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 20px;
+    text-align: center;
+    text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+  }
+  
+  /* Tabla de eventos */
+  .events-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+  }
+  
+  .events-table th, .events-table td {
+    padding: 15px;
+    text-align: left;
+    border: 1px solid #444; /* Borde oscuro */
+  }
+  
+  .events-table th {
+    background-color: #2a2a2a; /* Fondo oscuro para el encabezado */
+    color: #fff;
+  }
+  
+  .events-table td {
+    background-color: #333; /* Fondo oscuro para las filas */
+    color: #e0e0e0; /* Texto claro */
+    transition: background-color 0.3s ease;
+  }
+  
+  .events-table tr:hover td {
+    background-color: #444; /* Resaltar fila al pasar el ratón */
+  }
+  
+  /* Botones */
+  button {
+    background-color: #0066cc; /* Azul oscuro */
+    color: #fff;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin: 5px;
+  }
+  
+  button:hover {
+    background-color: #00509e; /* Azul más oscuro */
+    transform: scale(1.05); /* Efecto de "zoom" */
+  }
+  
+  /* Estilo de los botones de eliminar y editar */
+  button:nth-child(1) {
+    background-color: #28a745; /* Verde para "Editar" */
+  }
+  
+  button:nth-child(2) {
+    background-color: #dc3545; /* Rojo para "Eliminar" */
+  }
+  
+  /* Estilo de carga y error */
+  .manage-events p {
+    font-size: 1.5rem;
+    text-align: center;
+    color: #ffcc00; /* Color de advertencia para errores */
+  }
+  
+  /* Espaciado y responsividad */
+  @media (max-width: 768px) {
+    .events-table th, .events-table td {
+      padding: 10px;
+    }
+  
+    .manage-events {
+      padding: 15px;
+    }
+  }
+  

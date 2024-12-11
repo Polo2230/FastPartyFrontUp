@@ -1,108 +1,218 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
+import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { EventInput } from '@/app/services/Services';
 import Button from '@/components/atoms/Button/Button';
+import { fetchOrganizers, fetchLocations, createEvent, uploadImage, Location, Organizer } from '@/app/services/Services';
 import './EventForm.css';
 
-const eventSchema = z.object({
-  title: z.string().min(1, 'Title is required'),
-  description: z.string().min(1, 'Description is required'),
-  startDate: z.string().min(1, 'Start date is required'),
-  endDate: z.string().min(1, 'End date is required'),
-  location: z.string().min(1, 'Location is required'),
-  capacity: z.number().min(1, 'Capacity must be at least 1'),
-  price: z.number().min(0, 'Price cannot be negative'),
-  isExclusive: z.boolean(),
-  discount: z.number().min(0, 'Discount cannot be negative'),
-  imageUrl: z.string().url('Invalid image URL'),
+const localitySchema = z.object({
+  name: z.string().min(1, 'Localidad requerida'),
+  capacity: z.number().min(1, 'Capacidad mínima: 1').int(),
+  price: z.number().min(0, 'Precio no puede ser negativo'),
 });
 
-type EventFormProps = {
-  onSubmit: (data: EventInput) => void;
-  initialData?: EventInput;
-  isSubmitting: boolean;
-};
+const eventSchema = z.object({
+  title: z.string().min(1, 'Título requerido'),
+  description: z.string().min(1, 'Descripción requerida'),
+  startDate: z.string().min(1, 'Fecha inicio requerida'),
+  endDate: z.string().min(1, 'Fecha fin requerida'),
+  location: z.string().min(1, 'Ubicación requerida'),
+  organizer: z.string().min(1, 'Organizador requerido'),
+  isExclusive: z.boolean(),
+  discount: z.number().min(0, 'Descuento no puede ser negativo'),
+  capacity: z.number().optional(),
+  imageUrl: z.string().optional(), // Optional field for imageUrl
+  localities: z.array(localitySchema).min(1, 'Mínimo 1 localidad requerida'),
+});
 
-const EventForm: React.FC<EventFormProps> = ({ onSubmit, initialData, isSubmitting }) => {
-  const { register, handleSubmit, formState: { errors } } = useForm<EventInput>({
+type EventInput = z.infer<typeof eventSchema>;
+
+interface EventFormProps {
+  onSubmit: (eventData: EventInput) => void;
+  isSubmitting: boolean;
+  
+}
+
+const EventForm: React.FC<EventFormProps> = ({ onSubmit, isSubmitting }) => {
+  const [locations, setLocations] = useState<Location[]>([]);
+  const [organizers, setOrganizers] = useState<Organizer[]>([]);
+  const [image, setImage] = useState<File | null>(null); // State to handle image upload
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<EventInput>({
     resolver: zodResolver(eventSchema),
-    defaultValues: initialData || {
+    defaultValues: {
+      title: '',
+      description: '',
+      startDate: '',
+      endDate: '',
+      location: '',
+      organizer: '',
       isExclusive: false,
+      capacity: 0,
       discount: 0,
+      localities: [{ name: '', capacity: 0, price: 0 }],
+      imageUrl: '', // Default value for imageUrl
     },
   });
 
+  const { fields, append, remove } = useFieldArray({ control, name: 'localities' });
+
+  useEffect(() => {
+    const totalCapacity = watch('localities').reduce((acc, loc) => acc + (loc.capacity || 0), 0);
+    setValue('capacity', totalCapacity);
+  }, [watch('localities'), setValue]);
+
+  useEffect(() => {
+    const loadInitialData = async () => {
+      try {
+        const [locData, orgData] = await Promise.all([fetchLocations(), fetchOrganizers()]);
+        setLocations(locData);
+        setOrganizers(orgData);
+      } catch (error) {
+        console.error('Error cargando datos:', error);
+      }
+    };
+
+    loadInitialData();
+  }, []);
+
+  const onSubmitHandler = async (data: EventInput) => {
+    console.log("Formulario enviado con datos:", data); // Verifica si los datos se están enviando correctamente
+    try {
+      let imageUrl = data.imageUrl;
+      if (image) {
+        imageUrl = await uploadImage(image); // Sube la imagen y obtiene la URL
+      }
+  
+      const formattedEventData: EventInput = {
+        ...data,
+        startDate: new Date(data.startDate).toISOString(), // Asegura el formato ISO 8601
+        endDate: new Date(data.endDate).toISOString(),
+        imageUrl: imageUrl || undefined, // Evita enviar cadena vacía si no hay imagen
+      };
+  
+      await onSubmit(formattedEventData);
+      console.log("Evento creado exitosamente:", formattedEventData);
+    } catch (error) {
+      console.error("Error creando evento:", error);
+    }
+  };
+  
+  
+  
+  
+
+  // Handle file upload
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] ?? null;
+    setImage(file);
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="event-form">
+    <form onSubmit={handleSubmit(onSubmitHandler)} className="event-form">
+      {/* Título */}
       <div className="form-group">
-        <label htmlFor="title">Title</label>
-        <input id="title" {...register('title')} className="form-control" />
-        {errors.title && <p className="error-message">{errors.title.message}</p>}
+        <label htmlFor="title">Titulo</label>
+        <input id="title" {...register('title')} />
+        {errors.title && <span>{errors.title.message}</span>}
+      </div>
+
+      {/* Descripción */}
+      <div className="form-group">
+        <label htmlFor="description">Descripcion</label>
+        <textarea id="description" {...register('description')} />
+        {errors.description && <span>{errors.description.message}</span>}
+      </div>
+
+      {/* Fechas */}
+      <div className="form-group">
+        <label htmlFor="startDate">Fecha Inicio</label>
+        <input id="startDate" type="datetime-local" {...register('startDate')} />
+        {errors.startDate && <span>{errors.startDate.message}</span>}
       </div>
 
       <div className="form-group">
-        <label htmlFor="description">Description</label>
-        <textarea id="description" {...register('description')} className="form-control" />
-        {errors.description && <p className="error-message">{errors.description.message}</p>}
+        <label htmlFor="endDate">Fecha Fin</label>
+        <input id="endDate" type="datetime-local" {...register('endDate')} />
+        {errors.endDate && <span>{errors.endDate.message}</span>}
       </div>
 
+      {/* Ubicación */}
       <div className="form-group">
-        <label htmlFor="startDate">Start Date</label>
-        <input id="startDate" type="datetime-local" {...register('startDate')} className="form-control" />
-        {errors.startDate && <p className="error-message">{errors.startDate.message}</p>}
+        <label htmlFor="location">Ubicacion</label>
+        <select id="location" {...register('location')}>
+          <option value="">Seleccionar ubicación</option>
+          {locations.map((loc) => (
+            <option key={loc._id} value={loc._id}>
+              {loc.name}
+            </option>
+          ))}
+        </select>
+        {errors.location && <span>{errors.location.message}</span>}
       </div>
 
+      {/* Organizador */}
       <div className="form-group">
-        <label htmlFor="endDate">End Date</label>
-        <input id="endDate" type="datetime-local" {...register('endDate')} className="form-control" />
-        {errors.endDate && <p className="error-message">{errors.endDate.message}</p>}
+        <label htmlFor="organizer">Organizador</label>
+        <select id="organizer" {...register('organizer')}>
+          <option value="">Seleccionar organizador</option>
+          {organizers.map((org) => (
+            <option key={org._id} value={org._id}>
+              {org.name}
+            </option>
+          ))}
+        </select>
+        {errors.organizer && <span>{errors.organizer.message}</span>}
       </div>
 
+      {/* Imagen de evento */}
       <div className="form-group">
-        <label htmlFor="location">Location</label>
-        <input id="location" {...register('location')} className="form-control" />
-        {errors.location && <p className="error-message">{errors.location.message}</p>}
+        <label htmlFor="imageUrl">Imagen del Evento</label>
+        <input id="imageUrl" type="file" accept="image/*" onChange={handleImageUpload} />
+        {errors.imageUrl && <span>{errors.imageUrl.message}</span>}
       </div>
 
+      {/* Localidades */}
       <div className="form-group">
-        <label htmlFor="capacity">Capacity</label>
-        <input id="capacity" type="number" {...register('capacity', { valueAsNumber: true })} className="form-control" />
-        {errors.capacity && <p className="error-message">{errors.capacity.message}</p>}
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="price">Price</label>
-        <input id="price" type="number" step="0.01" {...register('price', { valueAsNumber: true })} className="form-control" />
-        {errors.price && <p className="error-message">{errors.price.message}</p>}
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="isExclusive">
-          <input type="checkbox" id="isExclusive" {...register('isExclusive')} className="form-control" />
-          Exclusive Event
-        </label>
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="discount">Discount</label>
-        <input id="discount" type="number" step="0.01" {...register('discount', { valueAsNumber: true })} className="form-control" />
-        {errors.discount && <p className="error-message">{errors.discount.message}</p>}
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="imageUrl">Image URL</label>
-        <input id="imageUrl" type="url" {...register('imageUrl')} className="form-control" />
-        {errors.imageUrl && <p className="error-message">{errors.imageUrl.message}</p>}
+        <label>Localidades</label>
+        {fields.map((field, index) => (
+          <div key={field.id} className="locality-item">
+            <input
+              placeholder="Name"
+              {...register(`localities.${index}.name` as const)}
+            />
+            <input
+              placeholder="Capacity"
+              type="number"
+              {...register(`localities.${index}.capacity` as const)}
+            />
+            <input
+              placeholder="Price"
+              type="number"
+              {...register(`localities.${index}.price` as const)}
+            />
+            <Button type="button" onClick={() => remove(index)}>Remove</Button>
+          </div>
+        ))}
+        <Button type="button" onClick={() => append({ name: '', capacity: 0, price: 0 })}>
+          Agregar Localidad
+        </Button>
       </div>
 
       <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? 'Creating Event...' : (initialData ? 'Update Event' : 'Create Event')}
+        {isSubmitting ? 'Creando evento...' : 'Crear Evento'}
       </Button>
+
     </form>
   );
 };
 
 export default EventForm;
-

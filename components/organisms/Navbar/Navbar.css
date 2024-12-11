@@ -1,11 +1,13 @@
-/* Navbar.css */
+/* Navbar Base */
 .navbar {
-  background-color: black; /* Color llamativo */
+  background-color: black;
   overflow: hidden;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
+  position: relative;
+  z-index: 1000;
 }
 
 .navbar-logo img {
@@ -18,6 +20,8 @@
   margin: 0;
   padding: 0;
   display: flex;
+  flex: 1;
+  justify-content: center; /* Centra el menú */
 }
 
 .navbar-menu li {
@@ -30,17 +34,134 @@
   padding: 14px 16px;
   text-decoration: none;
   font-weight: bold;
+  transition: color 0.3s ease, text-shadow 0.3s ease; /* Suaviza la transición */
 }
 
+/* Hover con letras en efecto neón */
 .navbar-menu li a:hover {
-  background-color: #c70039; /* Color llamativo */
+  color: #00ffcc; /* Color del neón */
+  text-shadow: 
+    0 0 5px #00ffcc, 
+    0 0 10px #00ffcc, 
+    0 0 20px #00ffcc, 
+    0 0 30px #00ffcc; /* Brillo fluido */
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espaciado entre ícono del carrito y botón */
+}
+
+.cart-icon {
+  position: relative;
+  cursor: pointer;
+}
+
+.cart-counter {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  background-color: #00ffcc;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* Botón para el menú */
+.menu-toggle {
+  display: none;
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* Mostrar el menú cuando se hace clic en el icono */
+.navbar-menu.active {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+/* Estilos de los elementos cuando el menú está activo */
+.navbar-menu li {
+  margin: 10px 0;
+}
+/* Estilos para los botones de Login y Sign Up */
+.navbar-right a Button {
+  background-color: black; /* Fondo oscuro */
+  color: #00ffcc; /* Texto en color neón */
+  border: 2px solid #00ffcc; /* Borde neón */
   border-radius: 5px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease; /* Transición suave */
 }
 
-.navbar-login {
-  margin-left: auto;
+/* Efecto al pasar el cursor */
+.navbar-right a Button:hover {
+  background-color: #00ffcc; /* Fondo cambia al color neón */
+  color: black; /* Texto cambia a oscuro */
+  box-shadow: 
+    0 0 10px #00ffcc, 
+    0 0 20px #00ffcc, 
+    0 0 30px #00ffcc; /* Brillo intenso */
 }
 
-.navbar-login .button-neon {
-  /* Estilos específicos para el botón de login si es necesario */
+/* Espaciado adicional entre botones */
+.navbar-right a {
+  margin: 0 5px;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 10px;
+  }
+
+  .navbar-logo {
+    margin-bottom: 10px;
+  }
+
+  .navbar-menu {
+    display: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .navbar-right {
+    justify-content: center;
+    gap: 15px;
+  }
+
+  /* Mostrar el botón del menú en pantallas pequeñas */
+  .menu-toggle {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-menu li {
+    margin-right: 10px;
+  }
+
+  .cart-icon img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .cart-counter {
+    font-size: 10px;
+    padding: 1px 4px;
+  }
 }

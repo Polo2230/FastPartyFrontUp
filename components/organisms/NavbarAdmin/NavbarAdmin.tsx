@@ -17,6 +17,11 @@ export const NavbarAdmin = () => {
     setShowEventsSubmenu(!showEventsSubmenu); // Cambia el estado del submenú de Eventos
   };
 
+  const handleLogout = () => {
+    // Aquí puedes agregar la lógica para cerrar sesión
+    window.location.href = '/login'; // Redirige a la página de login
+  };
+
   return (
     <nav className="navbarAdmin">
       <div className="navbar-logo">
@@ -26,7 +31,7 @@ export const NavbarAdmin = () => {
       </div>
       <ul className="navbar-menu">
         <li>
-          <Button type="button" onClick={() => window.location.href = '/admin-dashboard'}>Dashboard</Button>
+          <Button type="button" onClick={() => window.location.href = '/adminDashboard'}>Dashboard</Button>
         </li>
         <li>
           <Button type="button" onClick={togglePlacesSubmenu}>Lugares</Button>
@@ -55,6 +60,10 @@ export const NavbarAdmin = () => {
           <Button type="button" onClick={() => window.location.href = '/experiences'}>Contactos</Button>
         </li>
       </ul>
+      {/* Botón de Logout */}
+      <div className="navbar-logout">
+        <Button type="button" onClick={handleLogout}>Logout</Button>
+      </div>
     </nav>
   );
 };

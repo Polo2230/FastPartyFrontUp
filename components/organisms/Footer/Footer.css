@@ -1,38 +1,110 @@
 /* Footer.css */
+
+/* Fondo degradado oscuro con toques de neón */
 .footer {
-    background-color: black;
-    color: white;
-    padding: 20px 0;
-    text-align: center;
-  }
-  
+  background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
+  color: #f0f0f0;
+  padding: 40px 20px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Agregar un efecto de resplandor neon alrededor del footer */
+.footer::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: linear-gradient(135deg, #00e6e6, #ff00ff);
+  z-index: -1;
+  filter: blur(20px);
+  opacity: 0.7;
+  border-radius: 20px;
+}
+
+/* Contenido del footer */
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Sección de redes sociales */
+.social-media {
+  display: flex;
+  gap: 15px;
+}
+
+.social-media a {
+  color: #00e6e6; /* Color neón cian */
+  margin: 0 10px;
+  text-decoration: none;
+  font-size: 1.5rem;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.social-media a:hover {
+  color: #ff00ff; /* Cambia a magenta al pasar el cursor */
+  transform: scale(1.2);
+  text-shadow: 0 0 8px #ff00ff, 0 0 16px #ff00ff;
+}
+
+/* Información adicional del footer */
+.footer-info p {
+  margin: 5px 0;
+  font-size: 1rem;
+}
+
+.footer-info a {
+  color: #00e6e6; /* Color neón cian */
+  text-decoration: none;
+  transition: color 0.3s, border-bottom 0.3s;
+  border-bottom: 2px solid transparent;
+}
+
+.footer-info a:hover {
+  color: #ff00ff; /* Cambia a magenta al pasar el cursor */
+  border-bottom: 2px solid #ff00ff;
+}
+
+/* Tipografía elegante para títulos */
+.footer h3 {
+  color: #ff00ff; /* Título en magenta */
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
   .footer-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+    gap: 15px;
   }
-  
+
   .social-media a {
-    color: white;
-    margin: 0 10px;
-    text-decoration: none;
+    font-size: 1.2rem;
   }
-  
-  .social-media a:hover {
-    text-decoration: underline;
-  }
-  
-  .footer-info p {
-    margin: 5px 0;
-  }
-  
+
+  .footer-info p,
   .footer-info a {
-    color: white;
-    text-decoration: none;
+    font-size: 0.9rem;
   }
-  
-  .footer-info a:hover {
-    text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 30px 15px;
   }
-  
+
+  .social-media a {
+    font-size: 1rem;
+  }
+
+  .footer-info p,
+  .footer-info a {
+    font-size: 0.8rem;
+  }
+}

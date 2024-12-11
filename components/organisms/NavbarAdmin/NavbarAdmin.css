@@ -1,47 +1,102 @@
-/* Navbar.css */
+/* Estilos para el navbar de administración */
 .navbarAdmin {
-    background-color: black; /* Color llamativo */
-    overflow: hidden;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-  }
-  
-  .navbar-logo img {
-    height: 40px;
-    cursor: pointer;
-  }
-  
+  background-color: #1c1c1c; /* Fondo oscuro */
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* Sombra para darle un efecto moderno */
+}
+
+/* Logo */
+.navbar-logo img {
+  height: 40px;
+  cursor: pointer;
+}
+
+/* Menú de navegación */
+.navbar-menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.navbar-menu li {
+  margin-right: 20px;
+}
+
+.navbar-menu li a {
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.navbar-menu li a:hover {
+  background-color: #c70039; /* Color llamativo */
+  border-radius: 5px;
+}
+
+.submenu {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 5px;
+  position: absolute;
+  background-color: #333;
+  border-radius: 5px;
+  display: none;
+  z-index: 1;
+}
+
+.submenu li a {
+  color: #fff;
+  padding: 10px 20px;
+  text-decoration: none;
+}
+
+.submenu li a:hover {
+  background-color: #c70039; /* Color llamativo */
+}
+
+.navbar-menu li:hover .submenu {
+  display: block;
+}
+
+.navbar-logout {
+  margin-left: auto;
+}
+
+.navbar-logout button {
+  background-color: #dc3545; /* Rojo para el logout */
+  color: white;
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.navbar-logout button:hover {
+  background-color: #c82333; /* Rojo más oscuro */
+  transform: scale(1.05);
+}
+
+/* Media query para pantallas pequeñas */
+@media (max-width: 768px) {
   .navbar-menu {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
-  
+
   .navbar-menu li {
-    margin-right: 20px;
+    margin-bottom: 10px;
   }
-  
-  .navbar-menu li a {
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-weight: bold;
+
+  .navbar-logout {
+    margin-top: 20px;
   }
-  
-  .navbar-menu li a:hover {
-    background-color: #c70039; /* Color llamativo */
-    border-radius: 5px;
-  }
-  
-  .navbar-login {
-    margin-left: auto;
-  }
-  
-  .navbar-login .button-neon {
-    /* Estilos específicos para el botón de login si es necesario */
-  }
-  
+}

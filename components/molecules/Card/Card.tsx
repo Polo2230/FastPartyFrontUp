@@ -10,11 +10,17 @@ interface CardProps {
   description: string;
   link?: string;
   buttonText?: string;
+  imageUrl?: string; // Agregado para admitir imágenes
 }
 
-const Card: React.FC<CardProps> = ({ title, description, link, buttonText }) => {
+const Card: React.FC<CardProps> = ({ title, description, link, buttonText, imageUrl }) => {
   return (
     <div className="card">
+      {imageUrl && (
+        <div className="card-image">
+          <Image src={imageUrl} alt={title} fill style={{ objectFit: 'cover' }} />
+        </div>
+      )}
       <div className="card-content">
         <h2>{title}</h2>
         <p>{description}</p>

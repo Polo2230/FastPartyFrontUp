@@ -1,4 +1,4 @@
-'use client'; 
+'use client';
 
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -42,27 +42,15 @@ export default function LoginForm() {
   });
 
   const onSubmit = async (data: any) => {
-    console.log('Datos del formulario:', data);
     try {
-      // Llama a la función de inicio de sesión
       const result = await loginUser(data.email, data.password);
       const { token } = result;
   
       if (token) {
-        // Guarda el token en cookies
-        Cookies.set('token', token, { expires: 1 }); // Guarda el token en cookies por 1 día
-        console.log('Token guardado:', token);
-        
-        // Decodifica el token JWT
+        Cookies.set('token', token, { expires: 1 });
         const decodedToken: DecodedToken = jwtDecode(token);
-        console.log('Información del token decodificado:', decodedToken);
-
-        // Obtén el rol del usuario del token decodificado
-        const userRole = decodedToken.user?.role || 'user'; // Asigna 'user' si no existe el rol
-
-        console.log('Rol del usuario:', userRole);
+        const userRole = decodedToken.user?.role || 'user';
         
-        // Redirige al usuario según su rol
         if (userRole === 'admin') {
           router.push('/adminDashboard');
         } else if (userRole === 'user') {
@@ -70,8 +58,6 @@ export default function LoginForm() {
         } else {
           router.push('/');
         }
-      } else {
-        console.error('Token no recibido');
       }
     } catch (error: any) {
       console.error('Error durante el login:', error.message);
@@ -80,32 +66,19 @@ export default function LoginForm() {
 
   return (
     <MainTemplate>
-      <section className="login">
-        <section>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            {/* Campo de email */}
-            <label htmlFor="email">Email</label>
-            <input 
-              id="email" 
-              type="text" 
-              {...register('email')} 
-            />
-            {errors.email && typeof errors.email.message === 'string' && <p>{errors.email.message}</p>}
+      <div className="main">
+        <div className="section">
+          <form onSubmit={handleSubmit(onSubmit)} className="form">
+            <input type="text" placeholder="Email" {...register('email')} />
+            {errors.email && <p>{String(errors.email.message)}</p>}
 
-            {/* Campo de contraseña */}
-            <label htmlFor="password">Password</label>
-            <input 
-              id="password" 
-              type="password" 
-              {...register('password')} 
-            />
-            {errors.password && typeof errors.password.message === 'string' && <p>{errors.password.message}</p>}
+            <input type="password" placeholder="Password" {...register('password')} />
+            {errors.password && <p>{String(errors.password.message)}</p>}
 
-            {/* Botón de login */}
             <Button type="submit">Login</Button>
           </form>
-        </section>
-      </section>
+        </div>
+      </div>
     </MainTemplate>
   );
 }

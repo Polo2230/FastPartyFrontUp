@@ -16,12 +16,38 @@ const getAuthHeaders = () => {
   };
 };
 
+export interface Place {
+  _id: string;
+  name: string;
+  address: string;
+  capacity: number;
+  description: string;
+  images: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export const fetchPlaces = async (): Promise<Place[]> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/places`);
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to fetch places');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching places:', error);
+    throw error;
+  }
+};
+
+
 export interface Locality {
   name: string;
   capacity: number;
   price: number;
-  soldTickets: number;
-  _id: string;
 }
 
 export interface Location {
@@ -29,7 +55,8 @@ export interface Location {
   name: string;
   address: string;
   capacity: number;
-  description: string;
+  companyId: string | null;
+  isAvailable: boolean;
   createdAt: string;
   updatedAt: string;
   __v: number;
@@ -44,6 +71,7 @@ export interface Organizer {
   __v: number;
 }
 
+
 export interface Event {
   _id: string;
   title: string;
@@ -53,7 +81,7 @@ export interface Event {
   location: Location | null; // Puede ser null según tu ejemplo
   capacity: number;
   imageUrl: string;
-  organizer: Organizer | null; // Puede ser null según tu ejemplo
+  organizer: string | null; // Puede ser null según tu ejemplo
   isExclusive: boolean;
   discount: number;
   localities: Locality[];
@@ -84,14 +112,53 @@ export interface EventInput {
   description: string;
   startDate: string;
   endDate: string;
-  location?: Location | null; // Opcional si puede ser nulo
-  capacity: number;
-  imageUrl: string;
-  organizer?: Organizer | null; // Opcional si puede ser nulo
-  isExclusive: boolean;
-  discount: number;
+  location?: string | null;
+  capacity?: number; // Incluido
+  imageUrl?: string; // Incluido
+  organizer?: string | null;
+  isExclusive?: boolean;
+  discount?: number;
   localities: Locality[];
 }
+
+export interface TicketInput {
+  eventId: string;
+  localityName: string;
+  price: number;
+  quantity: number;
+}
+
+export const purchaseTickets = async (
+  customerId: string,
+  tickets: TicketInput[]
+): Promise<any> => {
+  try {
+    const headers = getAuthHeaders();
+    const url = `${API_BASE_URL}/tickets/purchase`;
+
+    const body = {
+      customerId,
+      tickets,
+    };
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to purchase tickets');
+    }
+
+    return await response.json(); // Devolvemos la respuesta completa
+  } catch (error) {
+    console.error('Error purchasing tickets:', error);
+    throw error;
+  }
+};
+
 
 // Event-related API functions
 export const fetchEvents = async (): Promise<Event[]> => {
@@ -111,6 +178,30 @@ export const fetchEvents = async (): Promise<Event[]> => {
   }
 };
 
+// Añadir la nueva función para cargar imágenes
+export const uploadImage = async (image: File): Promise<string> => {
+  try {
+    const formData = new FormData();
+    formData.append('image', image); // El key es 'image' y el value es el archivo de la imagen
+
+    const response = await fetch(`${API_BASE_URL}/images/upload`, {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to upload image');
+    }
+
+    const data = await response.json();
+    return data.url; // La URL de la imagen subida
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    throw error;
+  }
+};
+
 
 
 
@@ -121,24 +212,33 @@ export const createEvent = async (eventData: EventInput): Promise<Event> => {
     const headers = getAuthHeaders();
     const url = `${API_BASE_URL}/events`;
 
+    const body = {
+      ...eventData,
+      localities: eventData.localities.map((loc) => ({
+        name: loc.name,
+        capacity: loc.capacity,
+        price: loc.price,
+      })),
+    };
+
     const response = await fetch(url, {
       method: 'POST',
       headers: headers,
-      body: JSON.stringify(eventData),
+      body: JSON.stringify(body),
     });
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to create event');
+      throw new Error(errorData.message || "Failed to create event");
     }
 
-    const responseData: Event = await response.json();
-    return responseData;
+    return await response.json();
   } catch (error) {
-    console.error('Error creating event:', error);
+    console.error("Error creating event:", error);
     throw error;
   }
 };
+
 export const updateEvent = async (id: string, eventData: EventInput): Promise<Event> => {
   try {
     const response = await fetch(`${API_BASE_URL}/events/${id}`, {
@@ -237,6 +337,48 @@ export const registerUser = async (username: string, email: string, password: st
     return data;
   } catch (error) {
     console.error('Error registering user:', error);
+    throw error;
+  }
+};
+
+// Fetch organizers
+export const fetchLocations = async (): Promise<Location[]> => {
+  try {
+    const headers = getAuthHeaders();
+    const url = `${API_BASE_URL}/locations`;
+
+    const response = await fetch(url, { headers });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to fetch locations');
+    }
+
+    const data = await response.json();
+    return data.locations; // Asegúrate de que la respuesta tenga esta estructura
+  } catch (error) {
+    console.error('Error fetching locations:', error);
+    throw error;
+  }
+};
+
+
+export const fetchOrganizers = async (): Promise<Organizer[]> => {
+  try {
+    const headers = getAuthHeaders();
+    const url = `${API_BASE_URL}/companies`;
+
+    const response = await fetch(url, { headers });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to fetch organizers');
+    }
+
+    const data: Organizer[] = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching organizers:', error);
     throw error;
   }
 };

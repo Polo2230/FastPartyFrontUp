@@ -1,28 +1,40 @@
 .admin-dashboard {
-    background-color: #000; /* Fondo negro */
-    color: #0ff; /* Texto en color cian */
-    text-align: center;
-    padding: 50px;
-    min-height: 100vh;
-    font-family: 'Courier New', Courier, monospace;
-  }
-  
-  .admin-dashboard h1 {
-    font-size: 3rem;
-    text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 30px #0ff;
-  }
-  
-  .admin-dashboard h2 {
-    font-size: 2.5rem;
-    text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
-  }
-  
-  .admin-dashboard p {
-    font-size: 1.5rem;
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff;
-  }
-  
-  .admin-dashboard div {
-    margin-top: 20px;
-  }
-  
+  background-color: #121212; /* Fondo negro */
+  color: #00ffff; /* Texto cian */
+  text-align: center;
+  padding: 50px;
+  min-height: 100vh;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.admin-dashboard h1 {
+  font-size: 3rem;
+  text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
+}
+
+.admin-dashboard h2 {
+  font-size: 2.5rem;
+  text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+}
+
+.admin-dashboard p {
+  font-size: 1.5rem;
+  text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 15px #ffffff;
+}
+
+.admin-dashboard div {
+  margin-top: 20px;
+}
+
+.admin-link {
+  color: #00ffff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.2rem;
+  transition: transform 0.3s, color 0.3s;
+}
+
+.admin-link:hover {
+  color: #ff00ff; /* Rosa neón */
+  transform: scale(1.1);
+}

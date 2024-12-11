@@ -16,26 +16,18 @@ export default function CreateEvent() {
     setIsSubmitting(true);
     try {
       await createEvent(eventData);
-      toast.success('Evento creado exitosamente');
-      router.push('/admin/events');
+      toast.success("Evento creado exitosamente");
+      router.push("/admin/events");
     } catch (error) {
-      console.error('Error al crear el evento:', error);
-      if (error instanceof Error) {
-        if (error.message === 'Unauthorized: Please log in again') {
-          toast.error('Tu sesión ha expirado. Por favor inicia sesión nuevamente.');
-          router.push('/login');
-        } else if (error.message === 'API endpoint not found') {
-          toast.error('No se pudo conectar al servidor. Intenta nuevamente más tarde.');
-        } else {
-          toast.error(error.message || 'No se pudo crear el evento');
-        }
-      } else {
-        toast.error('Ocurrió un error inesperado');
-      }
+      console.error("Error al crear el evento:", error);
+      const errorMessage =
+        error instanceof Error ? error.message : "Ocurrió un error inesperado";
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
   };
+  
 
   return (
     <AdminTemplate>

@@ -1,4 +1,3 @@
-// MainTemplate.tsx
 'use client';
 
 import React from 'react';
@@ -14,9 +13,16 @@ const AdminTemplate: React.FC<AdminTemplateProps> = ({ children }) => {
   return (
     <>
       <Navbar />
-      <main className="main-content">
-        {children}
-      </main>
+      <div className="main-content">
+        <aside className="sidebar">
+          <a href="/adminDashboard">Dashboard</a>
+          <a href="/admin/events/edit">Gestionar Eventos</a>
+          <a href="/admin/events/create">Crear Nuevo Evento</a>
+          <a href="/admin/settings">Configuraciones</a>
+          <a href="/logout">Cerrar Sesión</a>
+        </aside>
+        <main className="dashboard">{children}</main>
+      </div>
       <Footer />
     </>
   );

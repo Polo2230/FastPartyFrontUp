@@ -62,7 +62,7 @@ export default function ManageEvents() {
               <tr key={event._id}>
                 <td>{event.title}</td>
                 <td>{new Date(event.startDate).toLocaleDateString()}</td>
-                <td>{event.location}</td>
+                <td>{event.location?.address}</td>
                 <td>
                   <Button onClick={() => router.push(`/admin/events/edit/${event._id}`)}>Editar</Button>
                   <Button onClick={() => handleDelete(event._id)}>Eliminar</Button>

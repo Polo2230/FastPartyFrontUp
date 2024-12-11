@@ -1,38 +1,111 @@
 /* style.css */
+
+/* Fondo general */
 .contact-us {
-    width: 100%;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  
-  header {
-    background-color: #f8f9fa;
-    padding: 20px;
-    width: 100%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
+  width: 100%;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(135deg, #1e1e2f, #121212);
+  color: #f0f0f0;
+  min-height: 100vh;
+}
+
+/* Estilo del encabezado */
+header {
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  padding: 20px;
+  width: 100%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 3rem;
+  color: #ff00ff; /* Magenta neon */
+  font-family: 'Poppins', sans-serif;
+  text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+}
+
+/* Estilo del formulario */
+.contact-form {
+  width: 90%;
+  max-width: 600px;
+  margin: 20px 0;
+}
+
+.contact-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 30px;
+  border-radius: 15px;
+  background: rgba(0, 0, 0, 0.8);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Campos del formulario */
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 15px;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  font-size: 1rem;
+  background: #1e1e2f;
+  color: #f0f0f0;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #00e6e6; /* Cian neon */
+  box-shadow: 0 0 10px #00e6e6, 0 0 20px #00e6e6;
+  outline: none;
+}
+
+/* Botón de envío */
+.contact-form button {
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #121212;
+  background: linear-gradient(135deg, #ff00ff, #00e6e6);
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.contact-form button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #ff00ff, 0 0 20px #00e6e6;
+}
+
+.contact-form button:active {
+  transform: scale(0.95);
+}
+
+/* Estilo de las etiquetas */
+.contact-form label {
+  font-size: 1rem;
+  color: #f0f0f0;
+}
+
+/* Adaptación a pantallas pequeñas */
+@media (max-width: 768px) {
   header h1 {
-    margin: 0;
-    font-size: 3em; /* Aumentar tamaño de fuente */
-    color: #333;
-    font-family: 'Georgia', serif; /* Cambiar familia de fuente */
+    font-size: 2.5rem;
   }
-  
-  .contact-form {
-    width: 80%;
-    margin: 20px 0;
-  }
-  
+
   .contact-form form {
-    display: flex;
-    flex-direction: column;
     padding: 20px;
-    border-radius: 20px;
-    border: 1px solid grey;
-    background-color: rgba(255, 255, 255, 0.05); /* Añadido un fondo sutil */
   }
-  
+
+  .contact-form button {
+    font-size: 1rem;
+  }
+}
